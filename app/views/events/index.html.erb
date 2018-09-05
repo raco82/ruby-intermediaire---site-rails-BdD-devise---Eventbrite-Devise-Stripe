@@ -1,0 +1,52 @@
+<div class="jumbotron jumbotron-center" style="background-color:#F8F9FA;">
+  <center>
+    <h1>TOUS LES ÉVÉNEMENTS</h1>
+    <%= image_tag("https://www.newstatesman.com/sites/all/themes/creative-responsive-theme/images/new_statesman_events.jpg", class: "img-fluid" , :alt => "Homepage Events") %></center>
+
+</div>
+
+<div class="jumbotron jumbotron-center" style="background-color:#F8F9FA;">
+
+  <% if user_signed_in? %>
+    <div class="container-fluid">
+      <table class="table">
+        <tr>
+
+          <th>NOM</th>
+          <th>DATE</th>
+          <th>LIEUX</th>
+          <th>PARTICIPANTS</th>
+          <th>TARIFS</th>
+          <th>STATUS</th>
+          <th>PLUS</th>
+
+        </tr>
+
+        <% @events.each do |event| %>
+          <tr>
+            <td><%= event.description %></td>
+            <td><%= event.date.to_date.strftime("%v")%></td>
+            <td><%= event.place%></td>
+            <td><%= event.attendees.count %></td>
+            <td><%= humanized_money_with_symbol(event.price) %></td>
+
+            <%if event.date.today?%>
+              <td>
+                <span class="badge badge-success">EN COURS</span>
+                <%elsif event.date.past?%>
+                  <td>
+                    <span class="badge badge-danger">TERMINE</span></td>
+                  <%elsif event.date.future?%>
+                    <td>
+                      <span class="badge badge-info">A VENIR</span></td>
+
+                  <% end %>
+                  <td><%= link_to "EN SAVOIR PLUS", event_path(event.id) %></td>
+                </tr>
+              <% end %>
+            </table>
+          </div>
+        <%else%>
+          <%flash[:error] = "VOUS N'ETES PAS CONNECTÉ"%><%end%>
+
+        </div>

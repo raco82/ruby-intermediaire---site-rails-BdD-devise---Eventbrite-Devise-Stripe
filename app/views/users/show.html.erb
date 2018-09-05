@@ -1,0 +1,109 @@
+<div class="container-fluid" style="padding: 50px;">
+
+  <% if user_signed_in? %>
+
+    <div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+      <center>
+        <h1>PROFIL DE :
+          <%=@user.name%></h1>
+        <%= image_tag("https://www.indiaratings.co.in/Images/LandingPageImages/EventPage.jpg", class: "img-responsive" , :alt => "Homepage Events") %></center>
+
+    </div>
+
+    <div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+      <center>
+        <p>
+          MEMBRE EVENTBRITE DEPUIS :
+          <%= @user.created_at.to_date.strftime("%v")%></br>
+        NOMBRE D'ÉVÉNEMENTS ORGANISÉS :
+        <%=@user.created_events.count%></br>
+      NOMBRE D'ÉVÉNEMENTS SUIVIS :
+      <%=@user.attended_events.count%></br>
+  </p>
+</center>
+</div>
+
+<div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+<center>
+
+  <h2>MES ÉVÉNEMENTS</h2>
+
+  <table class="table">
+    <tr>
+      <th>NOM</th>
+      <th>DATE</th>
+      <th>LIEUX</th>
+      <th>PARTICIPANTS</th>
+      <th>STATUS</th>
+      <th>MODIFIER</th>
+      <th>SUPPRIMER</th>
+    </tr>
+
+    <% @user.created_events.each do |event| %>
+      <tr>
+        <td><%= event.description %></td>
+        <td><%= event.date.to_date.strftime("%v")%>
+          <td><%= event.place%></td>
+          <td><%= event.attendees.count %></td>
+          <%if event.date.today?%>
+            <td>
+              <span class="badge badge-success">EN COURS</span>
+              <%elsif event.date.past?%>
+                <td>
+                  <span class="badge badge-danger">TERMINE</span></td>
+                <%elsif event.date.future?%>
+                  <td>
+                    <span class="badge badge-info">A VENIR</span></td>
+                <% end %>
+
+                <% if current_user.id == event.creator.id %>
+                  <td><%=link_to 'MODIFIER', edit_event_path(event)%></td>
+                  <td><%= link_to 'SUPPRIMER', event, method: :delete %></td>
+                </br>
+              </br>
+            <%else%>
+              <td>No access</td>
+              <td>No access</td>
+            <%end%>
+          </tr>
+        <%end%>
+      </table>
+    </br>
+  </br>
+  <h2>ÉVÉNEMENTS SUIVIS</h2>
+  <table class="table">
+    <tr>
+      <th>NOM</th>
+      <th>DATE</th>
+      <th>LIEUX</th>
+      <th>PARTICIPANTS</th>
+      <th>STATUS</th>
+    </tr>
+    <% @user.attended_events.each do |event| %>
+      <tr>
+        <td><%= event.description %></td>
+        <td><%= event.date.to_date.strftime("%v")%></td>
+        <td><%= event.place%></td>
+        <td><%= event.attendees.count %></td>
+        <%if event.date.today?%>
+          <td>
+            <span class="badge badge-success">EN COURS</span>
+            <%elsif event.date.past?%>
+              <td>
+                <span class="badge badge-danger">TERMINE</span></td>
+              <%elsif event.date.future?%>
+                <td>
+                  <span class="badge badge-info">A VENIR</span></td>
+              <% end %>
+            </tr>
+          <%end%>
+        </table>
+
+      <%else%>
+        <%flash[:error] = "Your must sign in or sign up first"%><%end%>
+      </div>
+
+    </center>
+  </div>
+
+</div>

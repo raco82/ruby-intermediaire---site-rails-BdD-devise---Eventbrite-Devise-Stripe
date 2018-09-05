@@ -1,0 +1,95 @@
+<div class="container-fluid">
+  <div id="carouselExampleSlidesOnly" class="carousel slide carousel-fade" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <%= image_tag 'homepage_hero_banner_1.jpg?auto=yes', alt:"caroussel image", class:"d-block w-100"%>
+
+      </div>
+      <div class="carousel-item">
+        <%= image_tag 'homepage_hero_banner_2.jpg?auto=yes', alt:"caroussel image", class:"d-block w-100"%>
+      </div>
+      <div class="carousel-item">
+        <%= image_tag 'homepage_hero_banner_3.jpg?auto=yes', alt:"caroussel image", class:"d-block w-100"%>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto" style="margin-top:-150px;">
+
+    <div class="card card-login col-md-8 mx-auto">
+      <div class="card-header">
+        <h2 style="color:#f8784e; text-align:center">Trouvez votre prochaine expérience</h2>
+      </div>
+      <div class="card-body">
+
+        <form class="form-inline">
+          <input type="text" class="form-control form-control-lg flex-grow-1" placeholder="Rechercher événements" aria-label="events" aria-describedby="basic-addon1">
+          <button type="submit" class="btn btn-orange btn-lg">RECHERCHER</button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid" style="padding: 50px;">
+
+      <center>
+        <h1 style="color:#007f8c;">LES DERNIERS ÉVÉNEMENTS</h1>
+      </center>
+    </div>
+
+    <div class="row" style="padding: 50px;">
+
+      <% if @events.count > 0 %>
+        <% @events.each do |event| %>
+          <div class="col-sm-3">
+            <div class="card" style="margin-bottom: 20px;padding: 15px;">
+              <div class="content text-center">
+                <p class="my-1 text-center" style="color:#f8784e;">
+                  <strong><%= event.description %></strong>
+                </p>
+                <%= image_tag("http://www.floatersnow.com/wp-content/themes/wp-floaters/images/pages/services/special-events/1.jpg", class: "img-responsive" , :alt => "Homepage Events") %>
+                <p class="my-1 pull-right">
+                  Nombre de participants :
+                  <strong><%= event.attendees.count %></strong>
+                </p>
+                <p class="my-1 pull-right">
+                  Lieu :
+                  <strong><%= event.place %></strong>
+                </p>
+                <p class="my-1 pull-right">
+                  Date :
+                  <strong><%= event.date.strftime("%v") %></strong>
+                </p>
+
+                <p class="my-1 pull-right">
+                  Proposé par :
+                  <strong><%= event.creator.name %></strong>
+                </p>
+                <%= link_to "EN SAVOIR PLUS", event_path(event), class: "btn btn-orange" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <h1 class="text-center">IL N'Y A PAS ENCORE D'ÉVÉNEMENTS</h1>
+      <% end %>
+    </div>
+
+    <div class="row mx-auto">
+
+      <div class="card border-warning col-md-8 mx-auto">
+        <div class="card-header">
+          <h2 style="color:#f8784e; text-align:center">VOUS AUSSI, CRÉEZ VOTRE ÉVÉNEMENT !</h2>
+        </div>
+        <div class="card-body">
+
+          <% if user_signed_in?%>
+          <a <%= link_to 'CRÉER MON ÉVÉNEMENT', new_event_path, class: "btn btn-orange btn-lg btn-block" %></a>
+        <%else%>
+        <a <%= link_to 'ME CONNECTER', new_user_registration_path, class: "btn btn-primary btn-lg btn-block" %></a>
+      <a <%= link_to 'CRÉER UN COMPTE', new_user_session_path, class: "btn btn-success btn-lg btn-block" %></a>
+    <%end%>
+
+  </div>
+</div>
+</div>

@@ -1,0 +1,31 @@
+<div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+  <center>
+    <h1>EDITER</h1>
+    <%= image_tag("https://www.indiaratings.co.in/Images/LandingPageImages/EventPage.jpg", class: "img-responsive" , :alt => "Homepage Events") %></center>
+
+</div>
+
+<div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+  <% if user_signed_in? %>
+
+    <div class="col-sm-10 offset-sm-1 text-left">
+      <%= form_for @event do |f| %>
+      <%= f.label :DESCRIPTION %>
+      <%= f.text_field :description, class: 'form-control' %>
+
+      <%= f.label :DATE %>
+      <%= f.datetime_field :date, class: 'form-control' %>
+
+      <%= f.label :LIEU %>
+      <%= f.text_field :place, class: 'form-control' %>
+
+      <%= f.label :PRIX %>
+      <%= f.number_field :price, class: 'form-control', step: :any %></br>
+    <div class="actions col-sm-10 offset-sm-1 text-center">
+      <%= f.submit "METTRE A JOUR", class: "btn btn-orange btn-lg" %>
+    </div>
+  <% end %>
+</div>
+<%else%>
+<%flash[:error] = "VOUS N'ETES PAS CONNECTÉ"%><%end%>
+</div>

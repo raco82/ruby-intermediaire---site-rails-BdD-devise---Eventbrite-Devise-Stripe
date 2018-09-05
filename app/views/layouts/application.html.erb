@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RAILS EVENTBRITE DEVISE</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= render 'layouts/shim' %>
+  </head>
+
+  <body class="showcase">
+    <%= render 'layouts/header' %>
+    <div class="container">
+      <%= render 'layouts/messages' %>
+
+    </div>
+
+    <%= yield %>
+    <%= render 'layouts/footer' %>
+  </body>
+</html>

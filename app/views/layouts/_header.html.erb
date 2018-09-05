@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" href="/">
+      <img src="https://www.freshbooks.com/_themes/freshbooks/smux-assets/img/content/addons/Eventbrite_wordmark_orange.png" width="120" height="30" alt="Logo Eventbrite">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+
+      <ul class="navbar-nav ml-auto">
+
+        <%if user_signed_in?%>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PROFIL</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown"><a class="dropdown-item" <%= link_to 'MON PROFIL', current_user %></a>
+          <a class="dropdown-item" <%= link_to 'EDITER PROFILE', edit_user_registration_path %></a>
+          <div class="dropdown-divider"></div>
+        <a class="dropdown-item" <%= link_to 'SE DECONNECTER', destroy_user_session_path, method: :delete %></a>
+      </div>
+    </li>
+  <a class="nav-item nav-link" <%= link_to 'CRÉER UN ÉVÉNEMENT', new_event_path %></a>
+<a class="nav-item nav-link" <%= link_to 'LES ÉVÉNEMENTS', events_path %></a>
+
+<%else%>
+<a class="nav-item nav-link" <%= link_to 'CRÉER UN COMPTE', new_user_registration_path %></a>
+<a class="nav-item nav-link" <%= link_to 'SE CONNECTER', new_user_session_path %></a>
+<%end%>
+
+</ul>
+
+</div>
+
+</div>
+</nav>

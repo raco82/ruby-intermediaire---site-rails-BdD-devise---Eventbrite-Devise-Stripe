@@ -1,0 +1,86 @@
+<div class="container-fluid" style="padding: 50px;">
+
+  <% if user_signed_in? %>
+
+    <div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+      <center>
+        <h1>Nom de l'événement :
+          <%= @event.description %></h1>
+        <%= image_tag("https://www.indiaratings.co.in/Images/LandingPageImages/EventPage.jpg", class: "img-responsive" , :alt => "Homepage Events") %></center>
+
+    </div>
+
+    <div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+      <center>
+        <p>
+          LIEU :
+          <%= @event.place %><br/>
+          DATE :
+          <%= @event.date.strftime("%v") %>
+          <br>
+            ORGANISATEUR:
+            <%= link_to @event.creator.name, user_path(@event.creator.id) %></br>
+          TARIF :
+          <%= humanized_money_with_symbol(@event.price) %></br>
+        MISE A JOUR :
+        <%= @event.updated_at.to_date.strftime("%v") %></br>
+      <%if @event.date.future?%>
+        <%if @event.attendees.include?(current_user)%>
+          <%= button_to "Ne plus participer à cet event", event_unsubscribe_path(@event), :class => 'btn btn-danger' %>
+          <%elsif @event.creator == current_user%>
+            <span class="badge badge-info">
+              Vous êtes l'organisateur</span></td>
+        <%else%>
+          <%= form_tag event_subscribe_path(@event) do %>
+          <article>
+            <% if flash[:error].present? %>
+              <div id="error_explanation">
+                <p><%= flash[:error] %></p>
+              </div>
+            <% end %>
+          </article>
+          <script
+            src="https://checkout.stripe.com/checkout.js"
+            class="stripe-button"
+            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+            data-description="<%= @event.place %> le <%= @event.date.to_date.strftime("
+            %a,="%a,"
+            %d="%d"
+            %b="%b"
+            %y") %>"="%Y") %>""
+            data-amount="<% @event.price_cents %>"
+            data-currency="EUR"
+            data-locale="auto"></script>
+        <% end %>
+      <%end%>
+      <%elsif @event.date.past?%>
+        <span class="badge badge-danger">Vous ne pouvez pas participer à un event déjà passé</span></td>
+    <%end%>
+  </p>
+</center>
+</div>
+
+<div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+<center>
+  <h2>Liste des Participants</h2>
+</center>
+
+<table class="table">
+  <tr>
+    <th>NOM</th>
+    <th>PROFIL</th>
+  </tr>
+  <% @event.attendees.each do |attendee| %>
+    <tr>
+      <td><%= attendee.name%></td>
+      <td><%= link_to 'profil', user_path(attendee.id)%></td>
+    </tr>
+  <%end%>
+</table>
+
+</div>
+
+<%else%>
+<%flash[:error] = "VOUS N'ETES PAS CONNECTÉ"%><%end%>
+
+</div>

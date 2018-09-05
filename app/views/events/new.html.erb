@@ -1,0 +1,26 @@
+<div class="jumbotron jumbotron-center shadow" style="background-color:#F8F9FA;">
+  <% if user_signed_in? %>
+    <% provide(:title, 'New event') %>
+      <h1 style="text-align:center; padding-top:50px; color:#007f8c;">CRÉER UN NOUVEL ÉVÉNEMENT</h1>
+
+      <div class="col-sm-10 offset-sm-1 ">
+        <%= form_for(@event) do |f| %>
+        <%= f.label :DESCRIPTION %>
+        <%= f.text_field :description, class: 'form-control' %>
+
+        <%= f.label :DATE %>
+        <%= f.datetime_field :date, class: 'form-control' %>
+
+        <%= f.label :LIEU %>
+        <%= f.text_field :place, class: 'form-control' %>
+
+        <%= f.label :PRIX %>
+        <%= f.number_field :price, class: 'form-control', step: :any %></br>
+      <div class="actions col-sm-10 offset-sm-1 text-center">
+        <%= f.submit "VALIDER", class: "btn btn-orange btn-lg" %>
+      </div>
+    <% end %>
+  </div>
+<%else%>
+  <%flash[:error] = "Vous devez d'abord être connecté"%><%end%>
+</div>
